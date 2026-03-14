@@ -61,16 +61,17 @@ export default function Home() {
         currentFilter={activeCategory}
       />
       
-      <div className="bg-[#D70E8E] pb-24">
+  <div className="bg-[#D70E8E] pb-24">
         <DogBanner />
       </div>
 
-      <div id="catalogo" className="max-w-7xl mx-auto px-6 -mt-20 relative z-10">
+      {/* 2. CONTENEDOR BLANCO PRINCIPAL */}
+      <div className="max-w-7xl mx-auto px-6 -mt-20 relative z-10">
         <div className="bg-white rounded-[40px] md:rounded-[70px] shadow-2xl p-4 md:p-16 border border-gray-50">
           
-
+          {/* SECCIÓN PET-FRIENDLY (Sin ID, es solo visual de bienvenida) */}
           <section className="mb-24">
-            <h3 className="text-4xl font-black text-[#905742] uppercase tracking-tighter mb-12 italic">
+            <h3 className="text-4xl font-black text-[#905742] uppercase tracking-tighter mb-12 italic text-center md:text-left">
               Colección <span className="text-[#D70E8E]">Canina</span> 🐾
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -86,8 +87,21 @@ export default function Home() {
 
           <hr className="border-gray-100 mb-20" />
 
+          {/* 3. AQUÍ ES DONDE DEBE IR EL ID PARA EL REDIRECCIONAMIENTO */}
+          <div id="catalogo" className="scroll-mt-32"> 
+            {/* El 'scroll-mt-32' sirve para que al saltar, el Navbar no tape el título */}
+            <div className="mb-12">
+              <h3 className="text-4xl font-black text-[#2C2A2B] uppercase tracking-tighter">
+                Nuestra Carta
+              </h3>
+              <p className="text-[10px] font-bold text-gray-300 tracking-[3px] uppercase mt-2">
+                Explora el sabor de Provocación
+              </p>
+            </div>
 
-          <IceCreamGrid data={currentItems} />
+            {/* GRID DE HELADOS DE PERSONAS */}
+            <IceCreamGrid data={currentItems} />
+          </div>
 
 
           {totalPages > 1 && (

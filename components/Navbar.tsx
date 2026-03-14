@@ -17,6 +17,11 @@ export default function Navbar({ onSearch, onFilter, currentFilter }: NavbarProp
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
+  // En Navbar.tsx, cuando elijas una sugerencia:
+const el = document.getElementById('catalogo');
+el?.scrollIntoView({ behavior: 'smooth' });
+
+
   // Lógica de búsqueda predictiva (Filtra nombres y marcas)
   const suggestions = useMemo(() => {
     if (inputValue.length < 2) return [];
