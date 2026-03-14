@@ -20,7 +20,7 @@ export default function Footer() {
       <div style={{ marginTop: 15, display: "flex", gap: 16, justifyContent: "center" }}>
         <a href="#" style={{ color: "#ff008a" }}>Instagram</a>
         <a href="#" style={{ color: "#ff008a" }}>Facebook</a>
-        <a href="#" style={{ color: "#ff008a" }}>WhatsApp</a>
+        <a href="https://wa.me/3150138110" style={{ color: "#ff008a" }}>WhatsApp</a>
       </div>
     </footer>
   );

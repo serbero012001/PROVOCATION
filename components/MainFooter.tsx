@@ -25,19 +25,19 @@ export default function MainFooter({ onFilter }: FooterProps) {
               alt="Logo Provocación" 
               className="h-24 w-auto drop-shadow-sm grayscale hover:grayscale-0 transition-all duration-500"
             />
-            <p className="text-gray-400 text-xs font-bold tracking-widest leading-relaxed max-w-xs uppercase">
+            <p className="text-gray-700 text-xs font-bold tracking-widest leading-relaxed max-w-xs uppercase">
               Desde 2003 creando momentos dulces <br /> para ti y tus peluditos.
             </p>
             <div className="flex gap-6">
               <a href="https://instagram.com" target="_blank" className="text-[10px] font-black tracking-[3px] text-[#D70E8E] hover:text-[#2C2A2B] transition-colors uppercase">Instagram</a>
               <a href="https://tiktok.com" target="_blank" className="text-[10px] font-black tracking-[3px] text-[#D70E8E] hover:text-[#2C2A2B] transition-colors uppercase">TikTok</a>
-              <a href="https://wa.me" target="_blank" className="text-[10px] font-black tracking-[3px] text-[#2C2A2B] hover:text-[#D70E8E] transition-colors uppercase">WhatsApp</a>
+              <a href="https://wa.me/3150738110" target="_blank" className="text-[10px] font-black tracking-[3px] text-[#2C2A2B] hover:text-[#D70E8E] transition-colors uppercase">WhatsApp</a>
             </div>
           </div>
 
           {/* COLUMNA 2: NAVEGACIÓN (Redireccionamientos Reales) */}
           <div className="space-y-6">
-            <h4 className="text-[10px] font-black tracking-[5px] text-gray-300 uppercase">Explorar</h4>
+            <h4 className="text-[10px] font-black tracking-[5px] text-gray-600 uppercase">Explorar</h4>
             <ul className="space-y-4 text-[11px] font-black text-[#905742] tracking-widest">
               {["PALETA", "VASO", "CONO", "POSTRE", "PERROS"].map((cat) => (
                 <li 
@@ -53,28 +53,22 @@ export default function MainFooter({ onFilter }: FooterProps) {
 
           {/* COLUMNA 3: INFO REAL */}
           <div className="space-y-6">
-            <h4 className="text-[10px] font-black tracking-[5px] text-gray-300 uppercase">Ubicación</h4>
+            <h4 className="text-[10px] font-black tracking-[5px] text-gray-600 uppercase">Ubicación</h4>
             <div className="space-y-4">
               <p className="text-[11px] font-black text-[#2C2A2B] tracking-widest leading-loose uppercase">
                 Cra. 9 Este, <br /> Soacha, Cundinamarca
               </p>
               <div className="pt-2">
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Línea de atención</p>
+                <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Línea de atención</p>
                 <p className="text-sm font-black text-[#D70E8E] mt-1 italic">315 0738110</p>
               </div>
-              <motion.button 
-                whileTap={{ scale: 0.95 }}
-                className="bg-[#2C2A2B] text-white px-8 py-3 rounded-full text-[9px] font-black uppercase tracking-[3px] hover:bg-[#D70E8E] transition-all shadow-xl"
-              >
-                CÓMO LLEGAR 📍
-              </motion.button>
             </div>
           </div>
         </div>
 
         {/* BARRA FINAL */}
         <div className="mt-24 pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[8px] font-black tracking-[5px] text-gray-300 uppercase">
+          <p className="text-[8px] font-black tracking-[5px] text-gray-600 uppercase">
             © 2026 PROVOCACIÓN HELADERÍA • SOACHA COLOMBIA
           </p>
           <div className="flex gap-8 text-[8px] font-black text-gray-300 tracking-[3px] uppercase">
