@@ -1,65 +1,119 @@
-import Image from "next/image";
+"use client";
+import { useState, useMemo } from "react";
+import Navbar from "@/components/Navbar";
+import DogBanner from "@/components/DogBanner";
+import IceCreamGrid from "@/components/IceCreamGrid";
+import MainFooter from "@/components/MainFooter";
+import LoadingScreen from "@/components/LoadingScreen";
+
+import { helados as ListaHelados, helados as HeladoData } from "@/data/helados";
 
 export default function Home() {
+  const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState("TODOS");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+
+
+  const petHelados = useMemo(() => 
+    ListaHelados.filter(h => (h.tipo as string) === "Perros").slice(0, 3), 
+  [ListaHelados]);
+
+
+  const filteredCatalog = useMemo(() => {
+    return ListaHelados.filter(h => {
+      const esPerro = (h.tipo as string) === "Perros";
+      const term = search.toLowerCase();
+      
+
+      const coincideBusqueda = 
+        h.nombre.toLowerCase().includes(term) || 
+        h.marca.toLowerCase().includes(term) || 
+        (h.tipo as string).toLowerCase().includes(term);
+      
+      const coincideCat = 
+        activeCategory === "TODOS" || 
+        (h.tipo as string).toUpperCase() === activeCategory.toUpperCase();
+      
+
+      return !esPerro && coincideBusqueda && coincideCat;
+    });
+  }, [search, activeCategory, ListaHelados]);
+
+
+  const totalPages = Math.ceil(filteredCatalog.length / itemsPerPage);
+  const currentItems = filteredCatalog.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="bg-[#FFF8F1] min-h-screen">
+      <LoadingScreen />
+      
+
+      <Navbar 
+        onSearch={setSearch} 
+        onFilter={(cat) => {
+          setActiveCategory(cat);
+          setCurrentPage(1); 
+        }}
+        currentFilter={activeCategory}
+      />
+      
+      <div className="bg-[#D70E8E] pb-24">
+        <DogBanner />
+      </div>
+
+      <div id="catalogo" className="max-w-7xl mx-auto px-6 -mt-20 relative z-10">
+        <div className="bg-white rounded-[40px] md:rounded-[70px] shadow-2xl p-4 md:p-16 border border-gray-50">
+          
+
+          <section className="mb-24">
+            <h3 className="text-4xl font-black text-[#905742] uppercase tracking-tighter mb-12 italic">
+              Colección <span className="text-[#D70E8E]">Canina</span> 🐾
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {petHelados.map((pet) => (
+                <div key={pet.id} className="bg-linear-to-b from-[#F9ECE4] to-white rounded-[60px] p-10 text-center border border-[#905742]/5 group hover:scale-105 transition-all">
+                  <img src={pet.imagen} className="h-48 mx-auto mb-6 drop-shadow-2xl" alt={pet.nombre} />
+                  <h4 className="font-black text-[#905742] text-sm uppercase tracking-widest">{pet.nombre}</h4>
+                  <div className="h-1 w-8 bg-[#D70E8E] mx-auto mt-4 rounded-full" />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <hr className="border-gray-100 mb-20" />
+
+
+          <IceCreamGrid data={currentItems} />
+
+
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-3 mt-24">
+              {[...Array(totalPages)].map((_, i) => (
+                <button 
+                  key={i} 
+                  onClick={() => {
+                    setCurrentPage(i + 1);
+                    document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className={`w-12 h-12 rounded-full font-black text-[10px] transition-all ${
+                    currentPage === i + 1 ? 'bg-[#D70E8E] text-white scale-125 shadow-lg' : 'bg-gray-50 text-gray-400 hover:text-[#D70E8E]'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              )).slice(0, 10)}
+            </div>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+      <MainFooter onFilter={(cat) => {
+  setActiveCategory(cat);
+  setCurrentPage(1);
+}} />
+    </main>
   );
 }

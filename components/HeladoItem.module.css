@@ -1,0 +1,77 @@
+.card {
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  height: 370px;
+  overflow: hidden;
+}
+
+/* 🖼 Imagen */
+.imageWrapper {
+  height: 190px;
+  background: #f7f7f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.image {
+  max-width: 75%;
+  max-height: 75%;
+  object-fit: contain;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* ℹ Info */
+.info {
+  padding: 12px;
+  flex-grow: 1;
+}
+
+.marca {
+  font-size: 11px;
+  color: #1f3c88;
+  text-transform: uppercase;
+}
+
+.nombre {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ff008a;
+  margin: 6px 0;
+  line-height: 1.2;
+  height: 34px; /* evita tarjetas desiguales */
+  overflow: hidden;
+}
+
+.precio {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f3c88;
+}
+
+/* 🟢 Botón */
+.boton {
+  margin: 12px;
+  text-align: center;
+  background: #ff008a;
+  color: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+
+.boton:active {
+  transform: scale(0.92);
+}
