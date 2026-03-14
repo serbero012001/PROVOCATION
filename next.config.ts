@@ -1,10 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig = {
-  output: 'export', // <--- ESTA LÍNEA ES VITAL
-  typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
-  images: { unoptimized: true },
+  /* Eliminamos la clave 'eslint' que causaba el aviso */
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  images: {
+    unoptimized: true,
+  },
 } as any;
 
 export default nextConfig;

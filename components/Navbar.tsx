@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { helados as ListaHelados } from "@/data/helados"; // Importante para las sugerencias
+import { helados as ListaHelados } from "@/data/helados";
 
 interface NavbarProps {
   onSearch: (val: string) => void;
@@ -12,27 +12,27 @@ interface NavbarProps {
 export default function Navbar({ onSearch, onFilter, currentFilter }: NavbarProps) {
   const menuItems = ["PALETA", "VASO", "CONO", "BONICE", "POSTRE", "PLATILLO"];
   
-  // --- ESTADOS PARA EL AUTOCOMPLETADO ---
   const [inputValue, setInputValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
-  // En Navbar.tsx, cuando elijas una sugerencia:
-const el = document.getElementById('catalogo');
-el?.scrollIntoView({ behavior: 'smooth' });
+  // --- FUNCIÓN DE AYUDA INTERNA ---
+  const scrollToCatalogo = () => {
+    if (typeof window !== "undefined") {
+      const el = document.getElementById('catalogo');
+      el?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
-
-  // Lógica de búsqueda predictiva (Filtra nombres y marcas)
   const suggestions = useMemo(() => {
     if (inputValue.length < 2) return [];
     const term = inputValue.toLowerCase();
     return ListaHelados.filter(h => 
       h.nombre.toLowerCase().includes(term) || 
       h.marca.toLowerCase().includes(term)
-    ).slice(0, 5); // Mostramos solo los 5 mejores resultados
+    ).slice(0, 5);
   }, [inputValue]);
 
-  // Cerrar la lista si haces clic fuera del buscador
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -47,19 +47,18 @@ el?.scrollIntoView({ behavior: 'smooth' });
     setInputValue(name);
     onSearch(name);
     setShowSuggestions(false);
-    document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' });
+    scrollToCatalogo(); // <--- Ahora es seguro
   };
 
   const handleFilterClick = (cat: string) => {
     onFilter(cat);
-    document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' });
+    scrollToCatalogo(); // <--- Ahora es seguro
   };
 
   return (
     <nav className="w-full bg-[#D70E8E] pt-10 pb-2 relative z-50">
       <div className="max-w-7xl mx-auto px-4">
         
-        {/* LOGO */}
         <div className="flex flex-col items-center mb-8">
           <motion.img 
             initial={{ opacity: 0, scale: 0.8 }}
@@ -67,11 +66,10 @@ el?.scrollIntoView({ behavior: 'smooth' });
             src="/logo-provocacion.png" 
             alt="Logo" 
             className="h-20 md:h-28 w-auto drop-shadow-2xl cursor-pointer"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: 'smooth' })}
           />
         </div>
 
-        {/* BUSCADOR CON AUTOCOMPLETE */}
         <div ref={searchRef} className="relative w-full max-w-lg mx-auto mb-10 group">
           <input 
             type="text" 
@@ -87,7 +85,6 @@ el?.scrollIntoView({ behavior: 'smooth' });
           />
           <span className="absolute left-6 top-1/2 -translate-y-1/2 text-xl opacity-40">🔍</span>
 
-          {/* LISTA DE SUGERENCIAS FLOTANTE */}
           <AnimatePresence>
             {showSuggestions && suggestions.length > 0 && (
               <motion.ul 
@@ -113,7 +110,6 @@ el?.scrollIntoView({ behavior: 'smooth' });
           </AnimatePresence>
         </div>
 
-        {/* MENÚ DE FILTROS */}
         <div className="bg-white rounded-t-[45px] md:rounded-t-[60px] px-6 py-6 shadow-[-10px_0_30px_rgba(0,0,0,0.05)]">
           <ul className="flex overflow-x-auto no-scrollbar justify-start md:justify-center gap-8 pb-1">
             {menuItems.map((item) => (
@@ -133,7 +129,7 @@ el?.scrollIntoView({ behavior: 'smooth' });
             <li 
               onClick={() => {
                 handleFilterClick("TODOS");
-                setInputValue(""); // Limpia también el buscador al dar click en limpiar
+                setInputValue(""); 
               }}
               className="text-[9px] font-black text-gray-200 cursor-pointer uppercase tracking-widest whitespace-nowrap"
             >

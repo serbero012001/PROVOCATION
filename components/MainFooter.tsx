@@ -6,10 +6,19 @@ interface FooterProps {
 }
 
 export default function MainFooter({ onFilter }: FooterProps) {
+  
+  // --- Función de Scroll Segura ---
   const handleCategoryClick = (cat: string) => {
     if (onFilter) {
       onFilter(cat);
-      document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' });
+      
+      // Verificación de seguridad para entorno cliente
+      if (typeof window !== "undefined") {
+        const el = document.getElementById('catalogo');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
     }
   };
 
@@ -35,7 +44,7 @@ export default function MainFooter({ onFilter }: FooterProps) {
             </div>
           </div>
 
-          {/* COLUMNA 2: NAVEGACIÓN (Redireccionamientos Reales) */}
+          {/* COLUMNA 2: NAVEGACIÓN */}
           <div className="space-y-6">
             <h4 className="text-[10px] font-black tracking-[5px] text-gray-600 uppercase">Explorar</h4>
             <ul className="space-y-4 text-[11px] font-black text-[#905742] tracking-widest">
@@ -51,7 +60,7 @@ export default function MainFooter({ onFilter }: FooterProps) {
             </ul>
           </div>
 
-          {/* COLUMNA 3: INFO REAL */}
+          {/* COLUMNA 3: INFO */}
           <div className="space-y-6">
             <h4 className="text-[10px] font-black tracking-[5px] text-gray-600 uppercase">Ubicación</h4>
             <div className="space-y-4">
